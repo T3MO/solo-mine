@@ -7,6 +7,7 @@ import { HardwareGrid } from "@/components/hardware/hardware-grid";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { cn } from "@/lib/utils";
 import hardwareData from "@/data/hardware.json";
+import type { HardwareDevice } from "@/types/hardware";
 import {
   Cpu,
   Shield,
@@ -39,7 +40,7 @@ export default function HardwarePage() {
     initialValue: { devicesViewed: [] },
   });
 
-  const devices = hardwareData.devices;
+  const devices = hardwareData.devices as HardwareDevice[];
 
   return (
     <div className="min-h-screen bg-background">
