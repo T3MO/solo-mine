@@ -6,6 +6,9 @@ import { createClient } from "@supabase/supabase-js";
 // Supports: Resend, ConvertKit, Mailgun, SendGrid
 // ============================================================================
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type SupabaseClient = ReturnType<typeof createClient<any, any>>;
+
 export async function POST(request: NextRequest) {
   try {
     // Verify webhook signature (provider-specific)
@@ -120,7 +123,7 @@ async function handleConvertKitWebhook(request: NextRequest) {
 // ============================================================================
 
 async function updateEmailLog(
-  supabase: ReturnType<typeof createClient>,
+  supabase: SupabaseClient,
   resendId: string,
   status: string,
   metadata?: Record<string, unknown>
@@ -138,7 +141,7 @@ async function updateEmailLog(
 }
 
 async function updateSubscriberEngagement(
-  supabase: ReturnType<typeof createClient>,
+  supabase: SupabaseClient,
   email: string,
   type: "opened" | "clicked"
 ) {
@@ -167,7 +170,7 @@ async function updateSubscriberEngagement(
 }
 
 async function markSubscriberBounced(
-  supabase: ReturnType<typeof createClient>,
+  supabase: SupabaseClient,
   email: string
 ) {
   const { error } = await supabase
@@ -182,7 +185,7 @@ async function markSubscriberBounced(
 }
 
 async function markSubscriberComplained(
-  supabase: ReturnType<typeof createClient>,
+  supabase: SupabaseClient,
   email: string
 ) {
   const { error } = await supabase
@@ -197,7 +200,7 @@ async function markSubscriberComplained(
 }
 
 async function syncConvertKitSubscriber(
-  supabase: ReturnType<typeof createClient>,
+  supabase: SupabaseClient,
   subscriber: { email_address: string; id: string; state: string },
   status: string
 ) {
@@ -214,7 +217,7 @@ async function syncConvertKitSubscriber(
 }
 
 async function updateConvertKitTags(
-  supabase: ReturnType<typeof createClient>,
+  supabase: SupabaseClient,
   subscriber: { email_address: string; tags: string[] }
 ) {
   const { data: existing } = await supabase
