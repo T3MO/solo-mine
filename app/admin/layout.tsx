@@ -17,7 +17,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { adminLogout } from "@/lib/admin-auth";
+import { adminLogout } from "@/lib/admin-actions";
 
 // ============================================================================
 // Navigation Items

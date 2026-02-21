@@ -1,11 +1,11 @@
 /**
  * Admin Authentication Utilities
  * Simple token-based auth for single-user admin panel
+ * NOTE: This file contains NO server-only imports and can be used in both client and server
  */
 
-import { cookies } from "next/headers";
-import { NextRequest } from "next/server";
 import crypto from "crypto";
+import { NextRequest } from "next/server";
 
 // ============================================================================
 // Configuration
@@ -13,8 +13,8 @@ import crypto from "crypto";
 
 const ADMIN_TOKEN = process.env.ADMIN_TOKEN;
 const ADMIN_PASSWORD_HASH = process.env.ADMIN_PASSWORD_HASH;
-const COOKIE_NAME = "admin-token";
-const COOKIE_MAX_AGE = 30 * 24 * 60 * 60; // 30 days
+export const COOKIE_NAME = "admin-token";
+export const COOKIE_MAX_AGE = 30 * 24 * 60 * 60; // 30 days
 
 // ============================================================================
 // Password Hashing
@@ -81,24 +81,6 @@ export function verifyAdminToken(token: string | undefined): boolean {
 export function isAuthenticated(request: NextRequest): boolean {
   const token = request.cookies.get(COOKIE_NAME)?.value;
   return verifyAdminToken(token);
-}
-
-// ============================================================================
-// Cookie Management
-// ============================================================================
-
-export function setAdminCookie(token: string): void {
-  cookies().set(COOKIE_NAME, token, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "strict",
-    maxAge: COOKIE_MAX_AGE,
-    path: "/admin",
-  });
-}
-
-export function clearAdminCookie(): void {
-  cookies().delete(COOKIE_NAME);
 }
 
 // ============================================================================
@@ -195,60 +177,4 @@ export function generateSetupCredentials(password: string): {
     token: generateAdminToken(),
     passwordHash: hashPassword(password),
   };
-}
-
-// ============================================================================
-// Server Actions
-// ============================================================================
-
-"use server";
-
-export async function adminLogin(
-  password: string,
-  rememberMe: boolean,
-  ip: string
-): Promise<{ success: boolean; error?: string }> {
-  // Check rate limit
-  const rateLimit = checkRateLimit(ip);
-  if (!rateLimit.allowed) {
-    const minutes = rateLimit.lockedUntil
-      ? Math.ceil((rateLimit.lockedUntil - Date.now()) / 60000)
-      : 0;
-    return {
-      success: false,
-      error: `Too many attempts. Try again in ${minutes} minutes.`,
-    };
-  }
-
-  // Verify password
-  if (!verifyAdminPassword(password)) {
-    recordFailedAttempt(ip);
-    return {
-      success: false,
-      error: `Invalid password. ${rateLimit.remainingAttempts - 1} attempts remaining.`,
-    };
-  }
-
-  // Success - set cookie
-  recordSuccessfulLogin(ip);
-
-  if (!ADMIN_TOKEN) {
-    return {
-      success: false,
-      error: "Server configuration error",
-    };
-  }
-
-  setAdminCookie(ADMIN_TOKEN);
-
-  return { success: true };
-}
-
-export async function adminLogout(): Promise<void> {
-  clearAdminCookie();
-}
-
-export async function checkAuthStatus(): Promise<boolean> {
-  const token = cookies().get(COOKIE_NAME)?.value;
-  return verifyAdminToken(token);
 }
