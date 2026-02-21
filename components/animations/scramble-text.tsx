@@ -240,7 +240,7 @@ export function HashDisplay({
     const duration = 400;
     const startTime = Date.now();
 
-    const animate = () => {
+    const tick = () => {
       const elapsed = Date.now() - startTime;
       const progress = Math.min(elapsed / duration, 1);
 
@@ -256,14 +256,14 @@ export function HashDisplay({
       setDisplayHash(result);
 
       if (progress < 1) {
-        requestAnimationFrame(animate);
+        requestAnimationFrame(tick);
       } else {
         setDisplayHash(hash);
         isAnimatingRef.current = false;
       }
     };
 
-    requestAnimationFrame(animate);
+    requestAnimationFrame(tick);
   }, [hash, animate]);
 
   // Count actual leading zeros in the hash
