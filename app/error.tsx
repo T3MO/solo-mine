@@ -183,6 +183,6 @@ export default function ErrorBoundary({ error, reset }: ErrorPageProps) {
 // Add Plausible type declaration
 declare global {
   interface Window {
-    plausible?: (event: string, options?: { props?: Record<string, unknown> }) => void;
+    plausible?: (event: string, options?: { props?: Record<string, string> }) => void;
   }
 }
