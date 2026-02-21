@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { isAuthenticated } from "@/lib/admin-auth";
+import { isAuthenticated } from "@/lib/middleware-auth";
 
 // ============================================================================
 // Admin Route Protection

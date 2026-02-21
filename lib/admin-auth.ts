@@ -11,7 +11,7 @@ import { NextRequest } from "next/server";
 // Configuration
 // ============================================================================
 
-const ADMIN_TOKEN = process.env.ADMIN_TOKEN;
+export const ADMIN_TOKEN = process.env.ADMIN_TOKEN;
 const ADMIN_PASSWORD_HASH = process.env.ADMIN_PASSWORD_HASH;
 export const COOKIE_NAME = "admin-token";
 export const COOKIE_MAX_AGE = 30 * 24 * 60 * 60; // 30 days

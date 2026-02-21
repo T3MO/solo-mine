@@ -279,6 +279,18 @@ export function getSearchEngine(): SearchEngine {
 }
 
 // ============================================================================
+// Analytics
+// ============================================================================
+
+type PlausibleEvent = "Search" | "Search Result Click" | "Quiz Start" | "Quiz Complete";
+
+export function trackEvent(event: PlausibleEvent, props?: Record<string, string>) {
+  if (typeof window !== "undefined" && (window as unknown as { plausible?: (e: string, opts?: { props?: Record<string, string> }) => void }).plausible) {
+    (window as unknown as { plausible: (e: string, opts?: { props?: Record<string, string> }) => void }).plausible(event, { props });
+  }
+}
+
+// ============================================================================
 // Utility Exports
 // ============================================================================
 

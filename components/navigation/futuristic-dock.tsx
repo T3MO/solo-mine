@@ -7,7 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useProgress } from "@/hooks/useProgress";
 import { cn } from "@/lib/utils";
 import {
-  Pickaxe,
+  Home,
   BookOpen,
   Calculator,
   Cpu,
@@ -32,7 +32,7 @@ interface NavItem {
 }
 
 const NAV_ITEMS: NavItem[] = [
-  { id: "home", label: "Home", href: "/", icon: Pickaxe },
+  { id: "home", label: "Home", href: "/", icon: Home },
   { id: "learn", label: "Learn", href: "/learn", icon: BookOpen },
   { id: "simulator", label: "Simulator", href: "/tools/variance-simulator", icon: Calculator, requiresPulse: true },
   { id: "quiz", label: "Should I Mine?", href: "/quiz", icon: HelpCircle },
