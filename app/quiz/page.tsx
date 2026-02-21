@@ -99,7 +99,7 @@ export default function QuizPage() {
     }
 
     // Check for electricity rate from variance simulator
-    const savedConfig = localStorage.getItem("solo-mine-config");
+    const savedConfig = localStorage.getItem("solo-mine-simulator-config");
     if (savedConfig) {
       try {
         const config = JSON.parse(savedConfig);

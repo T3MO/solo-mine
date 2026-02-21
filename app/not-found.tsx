@@ -237,10 +237,3 @@ export default function NotFound() {
     </div>
   );
 }
-
-// Add Plausible type declaration
-declare global {
-  interface Window {
-    plausible?: (event: string, options?: { props?: Record<string, string | number | boolean>; callback?: () => void }) => void;
-  }
-}

@@ -167,19 +167,3 @@ export function useTrackEvent(event: PlausibleEvent, props?: Record<string, stri
     trackEvent(event, props);
   }, [event, props]);
 }
-
-// ============================================================================
-// Type Declarations
-// ============================================================================
-
-declare global {
-  interface Window {
-    plausible?: (
-      event: string,
-      options?: {
-        props?: Record<string, string | number | boolean>;
-        callback?: () => void;
-      }
-    ) => void;
-  }
-}

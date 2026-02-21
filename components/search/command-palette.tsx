@@ -395,9 +395,3 @@ export function SearchButton({ onClick, className }: SearchButtonProps) {
 
 // Plausible analytics types
 type PlausibleEvent = "Search" | "Search Result Click";
-
-declare global {
-  interface Window {
-    plausible?: (event: string, options?: { props?: Record<string, string | number | boolean>; callback?: () => void }) => void;
-  }
-}

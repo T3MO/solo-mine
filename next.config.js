@@ -99,11 +99,6 @@ const nextConfig = {
         destination: '/learn/bitcoin-basics',
         permanent: true,
       },
-      {
-        source: '/hardware',
-        destination: '/shop',
-        permanent: true,
-      },
     ];
   },
 

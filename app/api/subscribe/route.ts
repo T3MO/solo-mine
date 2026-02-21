@@ -41,8 +41,12 @@ function validateEmail(email: string): boolean {
 
 export async function POST(request: NextRequest) {
   try {
-    // Get IP for rate limiting
-    const ip = request.ip || "anonymous";
+    // Get IP for rate limiting — prefer Cloudflare header, then standard proxy header, then Vercel's request.ip
+    const ip =
+      request.headers.get("CF-Connecting-IP") ||
+      request.headers.get("x-forwarded-for")?.split(",")[0].trim() ||
+      request.ip ||
+      "anonymous";
 
     // Check rate limit
     if (!checkRateLimit(ip)) {
@@ -86,7 +90,7 @@ export async function POST(request: NextRequest) {
     const result = await subscribeUser(normalizedEmail, tags, {
       ...metadata,
       source,
-      ip: process.env.NODE_ENV === "production" ? undefined : ip, // Don't store IP in production
+      ip: process.env.NODE_ENV === "production" ? undefined : ip, // Not stored in production (privacy/GDPR)
       subscribedAt: new Date().toISOString(),
     });
 
