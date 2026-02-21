@@ -162,7 +162,7 @@ export default async function Image({ params }: { params: { id: string } }) {
                   Power
                 </p>
                 <p style={{ fontSize: "24px", fontWeight: 600, color: "#ffffff", margin: 0 }}>
-                  {device.power}
+                  {device.wattage}W
                 </p>
               </div>
               <div>
