@@ -19,6 +19,8 @@ interface HolographicCardProps {
   header?: ReactNode;
   /** Footer content */
   footer?: ReactNode;
+  /** Inline styles */
+  style?: React.CSSProperties;
 }
 
 const variantColors = {
@@ -58,6 +60,7 @@ export function HolographicCard({
   isWarning = false,
   header,
   footer,
+  style,
 }: HolographicCardProps) {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isHovered, setIsHovered] = useState(false);
@@ -85,6 +88,7 @@ export function HolographicCard({
         boxShadow: showGlow
           ? `0 0 20px ${colors.glow}, inset 0 0 20px rgba(0,0,0,0.3)`
           : undefined,
+        ...style,
       }}
       onMouseMove={handleMouseMove}
       onMouseEnter={() => setIsHovered(true)}
