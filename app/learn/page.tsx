@@ -217,7 +217,7 @@ export default function LearnPage() {
   const { progress, lessons, isLoaded, calculateCompletion, getRecommendedNext } = useProgress();
 
   const completedLessons = Object.values(lessons).filter((l) => l.completed).length;
-  const totalLessons = lessons.length;
+  const totalLessons = Object.keys(lessons).length;
   const overallProgress = isLoaded ? calculateCompletion() : 0;
   const recommendedNext = isLoaded ? getRecommendedNext() : null;
 
