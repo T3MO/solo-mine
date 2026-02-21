@@ -334,13 +334,13 @@ export default function LearnPage() {
             All Lessons
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {lessons.map((lesson, index) => (
+            {Object.entries(lessons).map(([id, lesson], index) => (
               <LessonCard
-                key={lesson.id}
+                key={id}
                 lesson={lesson}
                 index={index}
-                isCompleted={lessons[lesson.id].completed}
-                percentComplete={lessons[lesson.id].percentComplete}
+                isCompleted={lesson.completed}
+                percentComplete={lesson.percentComplete}
               />
             ))}
           </div>
