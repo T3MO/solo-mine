@@ -398,6 +398,6 @@ type PlausibleEvent = "Search" | "Search Result Click";
 
 declare global {
   interface Window {
-    plausible?: (event: string, options?: { props?: Record<string, string> }) => void;
+    plausible?: (event: string, options?: { props?: Record<string, string | number | boolean>; callback?: () => void }) => void;
   }
 }
