@@ -215,9 +215,9 @@ export function ProjectionChart({
     scales: {
       x: {
         display: true,
+        border: { display: false },
         grid: {
           color: "rgba(26, 26, 30, 0.5)",
-          drawBorder: false,
         },
         ticks: {
           color: "#94A3B8",
@@ -230,9 +230,9 @@ export function ProjectionChart({
       },
       y: {
         display: true,
+        border: { display: false },
         grid: {
           color: "rgba(26, 26, 30, 0.5)",
-          drawBorder: false,
         },
         ticks: {
           color: "#94A3B8",
