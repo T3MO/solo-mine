@@ -34,7 +34,7 @@ export default function ErrorBoundary({ error, reset }: ErrorPageProps) {
         props: {
           message: error.message,
           digest: error.digest || "unknown",
-          stack: isDev ? error.stack : undefined,
+          stack: isDev ? (error.stack || "No stack trace") : "hidden",
         },
       });
     }
