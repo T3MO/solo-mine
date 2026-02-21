@@ -34,6 +34,7 @@ export default function manifest(): MetadataRoute.Manifest {
         type: "image/png",
       },
     ],
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     screenshots: [
       {
         src: "/screenshots/simulator.png",
@@ -56,7 +57,7 @@ export default function manifest(): MetadataRoute.Manifest {
         form_factor: "narrow",
         label: "Mobile View",
       },
-    ],
+    ] as any,
     shortcuts: [
       {
         name: "Take Quiz",
