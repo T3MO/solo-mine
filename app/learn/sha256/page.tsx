@@ -19,16 +19,6 @@ import {
 import type { HashResult } from "@/types/crypto";
 
 // ============================================================================
-// METADATA
-// ============================================================================
-
-export const metadata = {
-  title: "SHA-256 Visualizer | Learn Bitcoin Mining Math",
-  description:
-    "Interactive educational tool demonstrating SHA-256 hashing, proof-of-work, and the cryptographic foundations of Bitcoin mining.",
-};
-
-// ============================================================================
 // COMPONENT
 // ============================================================================
 

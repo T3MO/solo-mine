@@ -546,7 +546,7 @@ export function EligibilityQuiz({ initialElectricity }: EligibilityQuizProps) {
     return answer !== null && answer !== undefined;
   }, [currentStep, answers]);
 
-  const progress = ((currentStep + (isComplete ? 1 : 0)) / QUESTIONS.length) * 100;
+  const quizProgress = ((currentStep + (isComplete ? 1 : 0)) / QUESTIONS.length) * 100;
 
   if (isComplete) {
     const result = calculateResult();
@@ -565,13 +565,13 @@ export function EligibilityQuiz({ initialElectricity }: EligibilityQuizProps) {
           <span className="text-muted-foreground">
             Question {currentStep + 1} of {QUESTIONS.length}
           </span>
-          <span className="text-primary font-mono">{Math.round(progress)}%</span>
+          <span className="text-primary font-mono">{Math.round(quizProgress)}%</span>
         </div>
         <div className="h-2 bg-muted rounded-full overflow-hidden">
           <motion.div
             className="h-full bg-gradient-to-r from-primary to-primary/70"
             initial={{ width: 0 }}
-            animate={{ width: `${progress}%` }}
+            animate={{ width: `${quizProgress}%` }}
             transition={{ duration: 0.5, ease: [0.23, 1, 0.32, 1] }}
           />
         </div>

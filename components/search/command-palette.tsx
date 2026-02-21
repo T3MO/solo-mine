@@ -393,14 +393,8 @@ export function SearchButton({ onClick, className }: SearchButtonProps) {
   );
 }
 
-// Add missing trackEvent import
+// Plausible analytics types
 type PlausibleEvent = "Search" | "Search Result Click";
-
-function trackEvent(event: PlausibleEvent, props?: Record<string, string>) {
-  if (typeof window !== "undefined" && window.plausible) {
-    window.plausible(event, { props });
-  }
-}
 
 declare global {
   interface Window {
