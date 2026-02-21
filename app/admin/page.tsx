@@ -97,7 +97,7 @@ export default function AdminDashboard() {
           <Button
             variant="outline"
             size="sm"
-            onClick={() => stats && exportToCSV([stats.traffic.history], "traffic.csv")}
+            onClick={() => stats && exportToCSV(stats.traffic.history as Record<string, unknown>[], "traffic.csv")}
             className="border-slate-700 text-slate-300 hover:text-white"
           >
             <Download className="w-4 h-4 mr-2" />
