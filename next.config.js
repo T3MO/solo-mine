@@ -11,10 +11,10 @@ const nextConfig = {
     scrollRestoration: true,
   },
 
-  // Image optimization
+  // Image optimization - Cloudflare compatible
   images: {
     formats: ['image/avif', 'image/webp'],
-    minimumCacheTTL: 31536000, // 1 year
+    minimumCacheTTL: 31536000,
     remotePatterns: [
       {
         protocol: 'https',
@@ -31,6 +31,8 @@ const nextConfig = {
     ],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920],
     imageSizes: [16, 32, 48, 64, 96, 128, 256],
+    // Cloudflare Images compatibility
+    unoptimized: process.env.NODE_ENV === 'production',
   },
 
   // Security headers
@@ -60,7 +62,6 @@ const nextConfig = {
       },
     ];
 
-    // Add HSTS only in production (irreversible once set)
     if (isProduction) {
       headers.push({
         key: 'Strict-Transport-Security',
@@ -74,7 +75,6 @@ const nextConfig = {
         headers,
       },
       {
-        // Cache static assets for 1 year
         source: '/(.*\\.(?:js|css|svg|png|jpg|jpeg|gif|ico|woff|woff2|ttf|eot))',
         headers: [
           {
@@ -123,7 +123,6 @@ const nextConfig = {
 
   // Webpack optimizations
   webpack: (config, { isServer, dev }) => {
-    // Bundle analyzer in analyze mode
     if (process.env.ANALYZE === 'true') {
       const { BundleAnalyzerPlugin } = require('@next/bundle-analyzer');
       config.plugins.push(
@@ -135,7 +134,6 @@ const nextConfig = {
       );
     }
 
-    // Optimize three.js in production
     if (!dev && !isServer) {
       config.resolve.alias = {
         ...config.resolve.alias,
@@ -146,14 +144,11 @@ const nextConfig = {
     return config;
   },
 
-  // Output configuration
-  output: 'standalone',
+  // Cloudflare Pages compatible output (NOT standalone)
   poweredByHeader: false,
   generateEtags: true,
   compress: true,
   productionBrowserSourceMaps: false,
-  
-  // Trailing slashes for SEO consistency
   trailingSlash: false,
 };
 
