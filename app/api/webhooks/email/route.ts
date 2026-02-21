@@ -228,7 +228,7 @@ async function updateConvertKitTags(
 
   if (!existing) return;
 
-  const newTags = [...new Set([...existing.tags, ...subscriber.tags])];
+  const newTags = Array.from(new Set([...existing.tags, ...subscriber.tags]));
 
   await supabase
     .from("subscribers")
