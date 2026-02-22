@@ -308,10 +308,10 @@ function BudgetQuestion({ answer, onAnswer }: BudgetQuestionProps) {
 // ============================================================================
 
 const QUESTIONS = [
-  { id: "electricity" as const, title: "What's your electricity cost?", description: "Check your electric bill for the rate per kWh" },
-  { id: "living" as const, title: "Where will you mine?", description: "Your space determines noise and power requirements" },
-  { id: "tech" as const, title: "How technical are you?", description: "This helps us recommend the right setup complexity" },
-  { id: "goal" as const, title: "What's your primary goal?", description: "Different goals require different approaches" },
+  { id: "electricityCost" as const, title: "What's your electricity cost?", description: "Check your electric bill for the rate per kWh" },
+  { id: "livingSituation" as const, title: "Where will you mine?", description: "Your space determines noise and power requirements" },
+  { id: "techComfort" as const, title: "How technical are you?", description: "This helps us recommend the right setup complexity" },
+  { id: "primaryGoal" as const, title: "What's your primary goal?", description: "Different goals require different approaches" },
   { id: "budget" as const, title: "What's your budget?", description: "Helps us recommend the right hardware for your situation" },
 ];
 

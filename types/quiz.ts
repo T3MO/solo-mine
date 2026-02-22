@@ -72,12 +72,7 @@ export interface QuizResult {
 // Quiz State
 // ============================================================================
 
-export type QuizQuestionId =
-  | "electricity"
-  | "living"
-  | "tech"
-  | "goal"
-  | "budget";
+export type QuizQuestionId = keyof QuizAnswers;
 
 export interface QuizQuestion {
   id: QuizQuestionId;
