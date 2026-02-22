@@ -98,7 +98,8 @@ export async function subscribeWithSupabase(
     const now = new Date().toISOString();
 
     // Check if already subscribed
-    const { data: existing } = await supabase
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { data: existing } = await (supabase as any)
       .from("subscribers")
       .select("id, email, tags, metadata, status")
       .eq("email", email.toLowerCase())
