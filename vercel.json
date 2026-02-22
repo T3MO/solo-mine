@@ -85,7 +85,7 @@
       "source": "/bitcoin",
       "destination": "/learn/bitcoin-basics",
       "permanent": true
-    },
+    }
   ],
   
   "env": {
