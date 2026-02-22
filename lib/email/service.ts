@@ -110,7 +110,7 @@ export async function subscribeWithSupabase(
       const { error } = await (supabase as any)
         .from("subscribers")
         .update({
-          tags: [...new Set([...existing.tags, ...tags])],
+          tags: Array.from(new Set([...existing.tags, ...tags])),
           metadata: { ...existing.metadata, ...metadata, updated_at: now },
           status: existing.status === "unsubscribed" ? "active" : existing.status,
           updated_at: now,
