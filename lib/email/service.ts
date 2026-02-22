@@ -74,7 +74,8 @@ import { createClient } from "@supabase/supabase-js";
 
 let supabaseClient: ReturnType<typeof createClient> | null = null;
 
-function getSupabaseClient() {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function getSupabaseClient(): any {
   if (!supabaseClient) {
     const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
     const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
@@ -98,8 +99,7 @@ export async function subscribeWithSupabase(
     const now = new Date().toISOString();
 
     // Check if already subscribed
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const { data: existing } = await (supabase as any)
+        const { data: existing } = await supabase
       .from("subscribers")
       .select("id, email, tags, metadata, status")
       .eq("email", email.toLowerCase())
@@ -107,8 +107,7 @@ export async function subscribeWithSupabase(
 
     if (existing) {
       // Update existing subscriber
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const { error } = await (supabase as any)
+      const { error } = await supabase
         .from("subscribers")
         .update({
           tags: Array.from(new Set([...existing.tags, ...tags])),
@@ -366,8 +365,7 @@ export async function unsubscribeUser(email: string): Promise<{ success: boolean
 
     if (provider === "supabase") {
       const supabase = getSupabaseClient();
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const { error } = await (supabase as any)
+      const { error } = await supabase
         .from("subscribers")
         .update({ status: "unsubscribed", updated_at: new Date().toISOString() })
         .eq("email", email.toLowerCase());
