@@ -113,7 +113,7 @@ export async function subscribeWithSupabase(
           metadata: { ...existing.metadata, ...metadata, updated_at: now },
           status: existing.status === "unsubscribed" ? "active" : existing.status,
           updated_at: now,
-        })
+        } as any)
         .eq("id", existing.id);
 
       if (error) throw error;
@@ -366,7 +366,7 @@ export async function unsubscribeUser(email: string): Promise<{ success: boolean
       const supabase = getSupabaseClient();
       const { error } = await supabase
         .from("subscribers")
-        .update({ status: "unsubscribed", updated_at: new Date().toISOString() })
+        .update({ status: "unsubscribed", updated_at: new Date().toISOString() } as any)
         .eq("email", email.toLowerCase());
 
       if (error) throw error;
