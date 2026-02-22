@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { HardwareGrid } from "@/components/hardware/hardware-grid";
@@ -161,10 +161,12 @@ export default function HardwarePage() {
       {/* Hardware Grid Section */}
       <section className="py-8 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
-          <HardwareGrid
-            devices={devices}
-            electricityCost={electricityCost}
-          />
+          <Suspense fallback={<div className="py-8 text-center text-muted-foreground">Loading hardware...</div>}>
+            <HardwareGrid
+              devices={devices}
+              electricityCost={electricityCost}
+            />
+          </Suspense>
         </div>
       </section>
 

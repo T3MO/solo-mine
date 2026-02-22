@@ -214,10 +214,10 @@ function LessonCard({ lesson, index, isCompleted, percentComplete }: LessonCardP
 // ============================================================================
 
 export default function LearnPage() {
-  const { progress, lessons, isLoaded, calculateCompletion, getRecommendedNext } = useProgress();
+  const { progress, lessons: lessonProgress, isLoaded, calculateCompletion, getRecommendedNext } = useProgress();
 
-  const completedLessons = Object.values(lessons).filter((l) => l.completed).length;
-  const totalLessons = Object.keys(lessons).length;
+  const completedLessons = Object.values(lessonProgress).filter((l) => l.completed).length;
+  const totalLessons = Object.keys(lessonProgress).length;
   const overallProgress = isLoaded ? calculateCompletion() : 0;
   const recommendedNext = isLoaded ? getRecommendedNext() : null;
 
@@ -334,13 +334,13 @@ export default function LearnPage() {
             All Lessons
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {Object.entries(lessons).map(([id, lesson], index) => (
+            {lessons.map((lesson, index) => (
               <LessonCard
-                key={id}
+                key={lesson.id}
                 lesson={lesson}
                 index={index}
-                isCompleted={lesson.completed}
-                percentComplete={lesson.percentComplete}
+                isCompleted={lessonProgress[lesson.id]?.completed ?? false}
+                percentComplete={lessonProgress[lesson.id]?.percentComplete ?? 0}
               />
             ))}
           </div>
