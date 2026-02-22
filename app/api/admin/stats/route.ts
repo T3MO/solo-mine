@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getSubscriberStats } from "@/lib/email/service";
 
+export const runtime = "edge";
+
 // ============================================================================
 // Admin Stats API
 // Returns subscriber statistics for the admin dashboard

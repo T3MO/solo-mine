@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { unsubscribeUser } from "@/lib/email/service";
+
+export const runtime = "edge";
 import { getUnsubscribeConfirmationTemplate } from "@/components/email/templates";
 import { sendEmailWithResend } from "@/lib/email/service";
 

@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 
+export const runtime = "edge";
+
 // ============================================================================
 // Webhook Handler for Email Provider Events
 // Supports: Resend, ConvertKit, Mailgun, SendGrid

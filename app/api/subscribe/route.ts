@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { subscribeUser } from "@/lib/email/service";
 
+export const runtime = "edge";
+
 // ============================================================================
 // Rate Limiting (Simple in-memory store)
 // ============================================================================
