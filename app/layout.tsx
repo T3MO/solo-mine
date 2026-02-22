@@ -73,7 +73,6 @@ export default function RootLayout({ children }: RootLayoutProps) {
         >
           {/* Digital Foundry Aesthetic Effects */}
           <div className="scan-lines" aria-hidden="true" />
-          <div className="scan-line-animated" aria-hidden="true" />
           <div className="vignette" aria-hidden="true" />
           <div className="noise-overlay" aria-hidden="true" />
           
