@@ -32,7 +32,8 @@ export interface SearchIndex {
 // ============================================================================
 
 function buildHardwareIndex(): SearchResult[] {
-  return hardwareData.devices.map((device) => ({
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return hardwareData.devices.map((device: any) => ({
     id: device.id,
     title: device.name,
     description: device.description,
