@@ -18,6 +18,8 @@ export function useLocalStorage<T>(
     deserialize = JSON.parse,
   } = options;
 
+  const [isLoaded, setIsLoaded] = useState(false);
+
   // Initialize state with a function to avoid unnecessary localStorage reads
   const [value, setStoredValue] = useState<T>(() => {
     if (typeof window === "undefined") {
@@ -72,6 +74,11 @@ export function useLocalStorage<T>(
     }
   }, [key, initialValue]);
 
+  // Mark as loaded after first client-side render
+  useEffect(() => {
+    setIsLoaded(true);
+  }, []);
+
   // Listen for changes from other tabs/windows
   useEffect(() => {
     const handleStorageChange = (event: StorageEvent) => {
@@ -88,7 +95,7 @@ export function useLocalStorage<T>(
     return () => window.removeEventListener("storage", handleStorageChange);
   }, [key, deserialize]);
 
-  return { value, setValue, removeValue };
+  return { value, setValue, removeValue, isLoaded };
 }
 
 /**

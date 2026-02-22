@@ -107,6 +107,7 @@ export interface LocalStorageReturn<T> {
   value: T;
   setValue: (value: T | ((prev: T) => T)) => void;
   removeValue: () => void;
+  isLoaded: boolean;
 }
 
 // ============================================================================
