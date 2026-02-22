@@ -106,14 +106,15 @@ export async function subscribeWithSupabase(
 
     if (existing) {
       // Update existing subscriber
-      const { error } = await supabase
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const { error } = await (supabase as any)
         .from("subscribers")
         .update({
           tags: [...new Set([...existing.tags, ...tags])],
           metadata: { ...existing.metadata, ...metadata, updated_at: now },
           status: existing.status === "unsubscribed" ? "active" : existing.status,
           updated_at: now,
-        } as any)
+        })
         .eq("id", existing.id);
 
       if (error) throw error;
@@ -364,9 +365,10 @@ export async function unsubscribeUser(email: string): Promise<{ success: boolean
 
     if (provider === "supabase") {
       const supabase = getSupabaseClient();
-      const { error } = await supabase
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const { error } = await (supabase as any)
         .from("subscribers")
-        .update({ status: "unsubscribed", updated_at: new Date().toISOString() } as any)
+        .update({ status: "unsubscribed", updated_at: new Date().toISOString() })
         .eq("email", email.toLowerCase());
 
       if (error) throw error;
