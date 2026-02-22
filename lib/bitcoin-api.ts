@@ -19,7 +19,7 @@ export interface NetworkStats {
   difficultyChange: number; // percentage change at next adjustment
   blockHeight: number;
   blocksUntilAdjustment: number;
-  adjustment ETA: string;
+  adjustmentETA: string;
   hashrate: number; // in EH/s
   hashrateChange24h: number;
   mempoolSize: number; // in MB
@@ -122,7 +122,7 @@ async function fetchWithFallback<T>(
 }
 
 // Price fetchers
-async function fetchCoinGeckoPrice(): Promise<BitcoinPrice | null> {
+async function fetchCoinGeckoPrice(): Promise<BitcoinPrice> {
   const response = await fetch(
     "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd&include_24hr_change=true",
     { next: { revalidate: 60 } }
@@ -142,7 +142,7 @@ async function fetchCoinGeckoPrice(): Promise<BitcoinPrice | null> {
   };
 }
 
-async function fetchCoinCapPrice(): Promise<BitcoinPrice | null> {
+async function fetchCoinCapPrice(): Promise<BitcoinPrice> {
   const response = await fetch(
     "https://api.coincap.io/v2/assets/bitcoin",
     { next: { revalidate: 60 } }
@@ -163,7 +163,7 @@ async function fetchCoinCapPrice(): Promise<BitcoinPrice | null> {
 }
 
 // Network stats fetchers
-async function fetchMempoolSpaceStats(): Promise<Partial<NetworkStats> | null> {
+async function fetchMempoolSpaceStats(): Promise<Partial<NetworkStats>> {
   const [difficultyRes, blocksRes, mempoolRes] = await Promise.all([
     fetch("https://mempool.space/api/v1/difficulty"),
     fetch("https://mempool.space/api/blocks/tip/height"),
@@ -204,7 +204,7 @@ async function fetchMempoolSpaceStats(): Promise<Partial<NetworkStats> | null> {
   };
 }
 
-async function fetchBlockchainInfoStats(): Promise<Partial<NetworkStats> | null> {
+async function fetchBlockchainInfoStats(): Promise<Partial<NetworkStats>> {
   const response = await fetch("https://blockchain.info/q/getdifficulty");
   if (!response.ok) throw new Error("Blockchain.info API failed");
   
@@ -216,7 +216,7 @@ async function fetchBlockchainInfoStats(): Promise<Partial<NetworkStats> | null>
 }
 
 // Fee fetchers
-async function fetchMempoolSpaceFees(): Promise<RecommendedFees | null> {
+async function fetchMempoolSpaceFees(): Promise<RecommendedFees> {
   const response = await fetch("https://mempool.space/api/v1/fees/recommended");
   if (!response.ok) throw new Error("Mempool.space fees API failed");
   
@@ -232,7 +232,7 @@ async function fetchMempoolSpaceFees(): Promise<RecommendedFees | null> {
   };
 }
 
-async function fetchBlockchairFees(): Promise<RecommendedFees | null> {
+async function fetchBlockchairFees(): Promise<RecommendedFees> {
   const response = await fetch("https://api.blockchair.com/bitcoin/stats");
   if (!response.ok) throw new Error("Blockchair API failed");
   
