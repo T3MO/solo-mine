@@ -11,6 +11,8 @@ import type {
   SavedConfig,
   UseProgressReturn,
   JourneyMilestone,
+} from "@/types/progress";
+import {
   JOURNEY_MILESTONES,
   ACHIEVEMENTS,
   DEFAULT_PROGRESS_STATE,
