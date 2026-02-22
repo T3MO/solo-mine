@@ -1,10 +1,9 @@
 /**
  * Admin Authentication Utilities
  * Simple token-based auth for single-user admin panel
- * NOTE: This file contains NO server-only imports and can be used in both client and server
+ * Uses Web Crypto API (edge-runtime compatible, no Node.js dependencies)
  */
 
-import crypto from "crypto";
 import { NextRequest } from "next/server";
 
 // ============================================================================
@@ -17,22 +16,27 @@ export const COOKIE_NAME = "admin-token";
 export const COOKIE_MAX_AGE = 30 * 24 * 60 * 60; // 30 days
 
 // ============================================================================
-// Password Hashing
+// Password Hashing (Web Crypto API)
 // ============================================================================
 
-export function hashPassword(password: string): string {
-  return crypto
-    .createHash("sha256")
-    .update(password + (process.env.PASSWORD_SALT || "solo-mine-salt"))
-    .digest("hex");
+export async function hashPassword(password: string): Promise<string> {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(password + (process.env.PASSWORD_SALT || "solo-mine-salt"));
+  const hashBuffer = await crypto.subtle.digest("SHA-256", data);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map((b) => b.toString(16).padStart(2, "0")).join("");
 }
 
 // ============================================================================
-// Token Generation
+// Token Generation (Web Crypto API)
 // ============================================================================
 
 export function generateAdminToken(): string {
-  return crypto.randomBytes(32).toString("hex");
+  const bytes = new Uint8Array(32);
+  crypto.getRandomValues(bytes);
+  return Array.from(bytes)
+    .map((b) => b.toString(16).padStart(2, "0"))
+    .join("");
 }
 
 // ============================================================================
@@ -42,18 +46,18 @@ export function generateAdminToken(): string {
 /**
  * Verify admin password against stored hash
  */
-export function verifyAdminPassword(password: string): boolean {
+export async function verifyAdminPassword(password: string): Promise<boolean> {
   if (!ADMIN_PASSWORD_HASH) {
     console.error("ADMIN_PASSWORD_HASH not configured");
     return false;
   }
 
-  const hashedInput = hashPassword(password);
+  const hashedInput = await hashPassword(password);
   return hashedInput === ADMIN_PASSWORD_HASH;
 }
 
 /**
- * Verify admin token from cookie
+ * Verify admin token using timing-safe comparison (Web Crypto compatible)
  */
 export function verifyAdminToken(token: string | undefined): boolean {
   if (!ADMIN_TOKEN) {
@@ -63,16 +67,17 @@ export function verifyAdminToken(token: string | undefined): boolean {
 
   if (!token) return false;
 
-  // Use timing-safe comparison to prevent timing attacks
-  try {
-    return crypto.timingSafeEqual(
-      Buffer.from(token),
-      Buffer.from(ADMIN_TOKEN)
-    );
-  } catch {
-    // Different lengths will throw, return false
-    return false;
+  const encoder = new TextEncoder();
+  const tokenBuffer = encoder.encode(token);
+  const adminBuffer = encoder.encode(ADMIN_TOKEN);
+
+  if (tokenBuffer.length !== adminBuffer.length) return false;
+
+  let result = 0;
+  for (let i = 0; i < tokenBuffer.length; i++) {
+    result |= tokenBuffer[i] ^ adminBuffer[i];
   }
+  return result === 0;
 }
 
 /**
@@ -123,18 +128,9 @@ export function checkRateLimit(ip: string): {
 
   // Check attempts
   if (entry && entry.attempts >= MAX_ATTEMPTS) {
-    // Lock out the IP
     const lockedUntil = now + LOCKOUT_MS;
-    rateLimitMap.set(ip, {
-      ...entry,
-      lockedUntil,
-    });
-
-    return {
-      allowed: false,
-      remainingAttempts: 0,
-      lockedUntil,
-    };
+    rateLimitMap.set(ip, { ...entry, lockedUntil });
+    return { allowed: false, remainingAttempts: 0, lockedUntil };
   }
 
   return {
@@ -148,10 +144,7 @@ export function recordFailedAttempt(ip: string): void {
   const entry = rateLimitMap.get(ip);
 
   if (!entry || now > entry.resetAt) {
-    rateLimitMap.set(ip, {
-      attempts: 1,
-      resetAt: now + WINDOW_MS,
-    });
+    rateLimitMap.set(ip, { attempts: 1, resetAt: now + WINDOW_MS });
   } else {
     entry.attempts++;
   }
@@ -169,12 +162,12 @@ export function recordSuccessfulLogin(ip: string): void {
  * Generate a secure admin token and password hash for setup
  * Run this once to get your env vars
  */
-export function generateSetupCredentials(password: string): {
+export async function generateSetupCredentials(password: string): Promise<{
   token: string;
   passwordHash: string;
-} {
+}> {
   return {
     token: generateAdminToken(),
-    passwordHash: hashPassword(password),
+    passwordHash: await hashPassword(password),
   };
 }

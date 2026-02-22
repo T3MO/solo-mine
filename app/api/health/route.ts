@@ -82,7 +82,7 @@ export async function GET() {
     uptime: Date.now() - startTime,
     dependencies,
     environment,
-    region: process.env.VERCEL_REGION,
+    region: process.env.VERCEL_REGION ?? process.env.CF_PAGES_BRANCH ?? undefined,
   };
 
   const statusCode = status === "unhealthy" ? 503 : 200;

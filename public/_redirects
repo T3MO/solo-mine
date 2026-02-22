@@ -1,0 +1,12 @@
+# Cloudflare Pages — Redirects and rewrites
+# Mirrors the redirects/rewrites defined in next.config.js and vercel.json.
+# Format: <source> <destination> <status>
+
+# Permanent redirects (301)
+/home /  301
+/bitcoin /learn/bitcoin-basics  301
+
+# Rewrites — serve these paths without changing the URL (200)
+/sitemap.xml  /sitemap  200
+/robots.txt   /api/robots  200
+/rss.xml      /api/rss  200

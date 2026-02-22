@@ -232,7 +232,6 @@ export async function GET(request: NextRequest) {
       headers: {
         "Cache-Control": `public, s-maxage=${CACHE_MAX_AGE}, stale-while-revalidate=${STALE_WHILE_REVALIDATE}`,
         "CDN-Cache-Control": `public, s-maxage=${CACHE_MAX_AGE}`,
-        "Vercel-CDN-Cache-Control": `public, s-maxage=${CACHE_MAX_AGE}`,
       },
     });
   } catch (error) {

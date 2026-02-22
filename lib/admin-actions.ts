@@ -35,7 +35,7 @@ export async function adminLogin(
   }
 
   // Verify password
-  if (!verifyAdminPassword(password)) {
+  if (!await verifyAdminPassword(password)) {
     recordFailedAttempt(ip);
     return {
       success: false,

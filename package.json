@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "pages:build": "next build && npx @cloudflare/next-on-pages",
     "start": "next start",
     "lint": "next lint",
     "type-check": "tsc --noEmit",
@@ -56,6 +57,7 @@
     "three": "^0.160.0"
   },
   "devDependencies": {
+    "@cloudflare/next-on-pages": "^1.13.12",
     "@next/bundle-analyzer": "^14.1.0",
     "@types/bcryptjs": "^2.4.6",
     "@types/node": "^20.11.0",

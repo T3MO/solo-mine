@@ -41,11 +41,10 @@ function validateEmail(email: string): boolean {
 
 export async function POST(request: NextRequest) {
   try {
-    // Get IP for rate limiting — prefer Cloudflare header, then standard proxy header, then Vercel's request.ip
+    // Get IP for rate limiting — prefer Cloudflare header, then standard proxy header
     const ip =
       request.headers.get("CF-Connecting-IP") ||
       request.headers.get("x-forwarded-for")?.split(",")[0].trim() ||
-      request.ip ||
       "anonymous";
 
     // Check rate limit
