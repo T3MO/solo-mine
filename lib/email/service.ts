@@ -437,7 +437,8 @@ export async function getSubscriberStats(): Promise<{
         .eq("status", "active");
 
       const deviceCounts: Record<string, number> = {};
-      subscribers?.forEach((sub) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      subscribers?.forEach((sub: any) => {
         sub.tags.forEach((tag: string) => {
           if (tag.startsWith("interested-")) {
             const device = tag.replace("interested-", "");
