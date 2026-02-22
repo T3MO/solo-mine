@@ -208,7 +208,7 @@ export function generateHardwareDeviceMetadata(device: {
     openGraph: {
       title: `${device.name} - $${device.price} | Solo Mine`,
       description: device.description,
-      type: "product",
+      type: "website",
       images: device.image
         ? [
             {
